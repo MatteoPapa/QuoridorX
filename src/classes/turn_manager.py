@@ -37,7 +37,6 @@ class TurnManager:
             self.current_turn = 'red'
         self.start_turn()
 
-
     def start_turn(self):
         """Start the turn of the player."""
         #UPDATE GAME STATE

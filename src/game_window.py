@@ -3,6 +3,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QGraphicsView, QMainWindow, QWidget, QHBoxLayout
 
 from bot.bot import Bot
+from helpers.path_helper import clear_cache
 from helpers.resource_helper import resource_path
 from ui.layouts import create_start_buttons_layout, create_game_items_layout, create_win_buttons_layout, \
     create_ai_difficulty_layout
@@ -10,6 +11,7 @@ from classes.grid_scene import GridScene
 from classes.player import Player
 from classes.turn_manager import TurnManager
 
+#Enable AI vs AI
 AIvsAI=False
 TESTING_DIFFICULTY='hard'
 
@@ -94,15 +96,19 @@ class GameWindow(QMainWindow):
         # Remove the current scene and create a new one
         self.scene = GridScene(game=self)
         self.view.setScene(self.scene)
+
         # Register scene in the turn manager
         self.turn_manager.register_scene(self.scene)
         self.turn_manager.move_history = []
 
-        # Replace the old VBox layout with a new one
+        # Show the during-game buttons
         self.difficulty_buttons_container.hide()
         self.start_buttons_container.hide()
         self.win_buttons_container.hide()
         self.game_items_container.show()
+
+        # Clear the pathfinding cache
+        clear_cache()
 
         blue_player_image_path = resource_path('resources/images/blue_player.png')
 
@@ -144,7 +150,6 @@ class GameWindow(QMainWindow):
 
         # If playing vs bot, initialize the red player as a bot
         if vs_bot:
-
             # Initialize red player as a bot
             print("Bot created")
             self.vs_bot = True
@@ -154,7 +159,6 @@ class GameWindow(QMainWindow):
             #AI VS
             if AIvsAI:
                 self.blue_player= Bot(blue_player_settings, game=self,difficulty=TESTING_DIFFICULTY)
-
         else:
             # Initialize red player as a human player
             self.vs_bot = False

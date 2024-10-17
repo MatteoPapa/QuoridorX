@@ -98,6 +98,8 @@ class Player(QGraphicsRectItem):
         else:
             # Check if the new position is valid
             if self.is_position_valid(new_row, new_col):
+                #Disable key pressing for the rest of the turn
+                self.scene_ref.keyPressed=True
                 # Update player's position to the new grid position
                 self.row, self.col = new_row, new_col
                 self.setPos(grid_to_scene(new_row, new_col, self.cell_size))

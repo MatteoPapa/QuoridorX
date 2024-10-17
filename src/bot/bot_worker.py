@@ -4,7 +4,7 @@ import time
 
 from helpers.valid_moves_helper import get_valid_moves_helper
 
-last_two_moves = []
+last_position = None
 
 class BotWorker(QThread):
     move_computed = pyqtSignal(str, tuple)
@@ -21,7 +21,7 @@ class BotWorker(QThread):
         self._is_running = True
 
     def run(self):
-        global last_two_moves
+        global last_position
         start_time = time.time()
 
         best_move = None
@@ -43,10 +43,9 @@ class BotWorker(QThread):
         #region MINIMAX ALGORITHM
 
         for type, move in ordered_moves:
-            if not self._is_running:  # Check if the thread should stop
+            if not self._is_running:
                 print("Bot worker stopped.")
-                last_two_moves = []
-                return  # Exit the run method safely
+                return
 
             game_state_copy = self.game_state.simulate_move_or_wall(type, move, self.player)
             nodes_examined = {'count': 0}
@@ -63,6 +62,11 @@ class BotWorker(QThread):
                 move_sequence=[],
             )
 
+            # Penalize the bot for moving back and forth
+            if type in ['left', 'right', 'up', 'down']:
+                if move==last_position:
+                    move_value -= 3
+
             # If the bot has no walls left, go for the shortest path
             if self.available_walls == 0:
                 if move_value > -1000:
@@ -70,10 +74,6 @@ class BotWorker(QThread):
                     best_type = type
                     best_value = move_value
                     break
-
-            # Check if the bot is stuck (repeating the same move)
-            if len(last_two_moves) > 0 and last_two_moves[-1] == (type, move):
-                move_value -= 5  # Penalize the repeated move
 
             if move_value > best_value:
                 best_value = move_value
@@ -88,7 +88,7 @@ class BotWorker(QThread):
 
         if best_move:
             print(f"Evaluation: {best_value:.2f}")
-            print("Best move sequence:", best_type, best_move, best_move_sequence)
+            #print("Best move sequence:", best_type, best_move, best_move_sequence)
             self.best_type = best_type
             self.best_move = best_move
 
@@ -100,11 +100,9 @@ class BotWorker(QThread):
         end_time = time.time()
         elapsed_time = end_time - start_time
         print(f"Bot thought for {elapsed_time:.2f} seconds.")
+        last_position = self.player.row, self.player.col
 
-        last_two_moves.append((best_type, best_move))
-        last_two_moves = last_two_moves[-2:]  # Keep only the last 2 moves
-
-        # Force moves if the bot is stuck
+        # Force move if no best move was found
         if not best_move:
             if not ordered_moves and self.available_walls == 0:
                 self.move_computed.emit('skip', ())

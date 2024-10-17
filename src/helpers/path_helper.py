@@ -171,3 +171,13 @@ def is_path_blocked(pos1, pos2, blocked_roads):
     Check if the path between two positions is blocked by a wall.
     """
     return [pos1, pos2] in blocked_roads or [pos2, pos1] in blocked_roads
+
+def clear_cache():
+    """
+    Clear the cache of stored paths, keeping the first 1000 entries.
+    """
+    global cache
+
+    if len(cache) > 1000:
+        # Create a new cache dictionary with the first 1000 items
+        cache = dict(list(cache.items())[:1000])
