@@ -2,13 +2,13 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QGraphicsView, QMainWindow, QWidget, QHBoxLayout
 
-from src.bot.bot import Bot
-from src.helpers.resource_helper import resource_path
-from src.ui.layouts import create_start_buttons_layout, create_game_items_layout, create_win_buttons_layout, \
+from bot.bot import Bot
+from helpers.resource_helper import resource_path
+from ui.layouts import create_start_buttons_layout, create_game_items_layout, create_win_buttons_layout, \
     create_ai_difficulty_layout
-from src.classes.grid_scene import GridScene
-from src.classes.player import Player
-from src.classes.turn_manager import TurnManager
+from classes.grid_scene import GridScene
+from classes.player import Player
+from classes.turn_manager import TurnManager
 
 AIvsAI=False
 TESTING_DIFFICULTY='hard'

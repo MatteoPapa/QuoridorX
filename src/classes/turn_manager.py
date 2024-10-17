@@ -1,4 +1,4 @@
-from src.classes.game_state import GameState
+from classes.game_state import GameState
 
 class TurnManager:
     def __init__(self,game,color):

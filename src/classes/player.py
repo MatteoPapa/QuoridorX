@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsPixmapItem, QGraphicsItem, QStyle
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPen, QPixmap, QColor
-from src.helpers.grid_helpers import grid_to_scene, scene_to_grid  # Importing helper functions
+from helpers.grid_helpers import grid_to_scene, scene_to_grid  # Importing helper functions
 
 class Player(QGraphicsRectItem):
     def __init__(self, player_settings, game):

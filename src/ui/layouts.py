@@ -2,7 +2,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon, QPixmap, QFont
 from PyQt6.QtWidgets import QVBoxLayout, QPushButton, QLCDNumber, QLabel, QWidget, QSizePolicy
 
-from src.helpers.resource_helper import resource_path
+from helpers.resource_helper import resource_path
 
 FIXED_WIDTH = 200  # Set a fixed width for all layouts
 

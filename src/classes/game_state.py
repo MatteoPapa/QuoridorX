@@ -1,6 +1,6 @@
-from src.helpers.path_helper import bfs_pathfinder
-from src.helpers.valid_moves_helper import get_valid_moves_helper
-from src.helpers.wall_helpers import find_forbidden_walls_new, find_valid_walls, get_blocked_roads
+from helpers.path_helper import bfs_pathfinder
+from helpers.valid_moves_helper import get_valid_moves_helper
+from helpers.wall_helpers import find_forbidden_walls_new, find_valid_walls, get_blocked_roads
 
 
 class GameState:

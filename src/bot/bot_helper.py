@@ -1,6 +1,6 @@
-from src.helpers.path_helper import bfs_pathfinder
-from src.helpers.valid_moves_helper import get_valid_moves_helper
-from src.helpers.wall_helpers import get_blocked_roads
+from helpers.path_helper import bfs_pathfinder
+from helpers.valid_moves_helper import get_valid_moves_helper
+from helpers.wall_helpers import get_blocked_roads
 
 def minimax(game_state, depth, alpha, beta, maximizing_player_color, current_player_color, nodes_examined, difficulty, move_sequence=None):
     # Increment the node counter

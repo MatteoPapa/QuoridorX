@@ -1,4 +1,4 @@
-from src.helpers.path_helper import bfs_pathfinder, bfs_pathfinder_cell_to_cell, dfs_path_exists
+from helpers.path_helper import bfs_pathfinder, bfs_pathfinder_cell_to_cell, dfs_path_exists
 
 
 def get_blocked_roads(wall):

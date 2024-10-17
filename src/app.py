@@ -1,9 +1,12 @@
 import sys
+import os
 from PyQt6.QtWidgets import QApplication
 from qt_material import apply_stylesheet
-from src.game_window import GameWindow
+from game_window import GameWindow
 
 def main():
+
+    sys.path.append(os.path.dirname(os.path.realpath(__file__)))
     app = QApplication(sys.argv)
     game_window = GameWindow()
     apply_stylesheet(app, theme='dark_teal.xml')

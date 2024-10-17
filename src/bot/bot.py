@@ -1,5 +1,5 @@
-from src.bot.bot_worker import BotWorker
-from src.classes.player import Player
+from bot.bot_worker import BotWorker
+from classes.player import Player
 
 class Bot(Player):
     def __init__(self, player_settings,game,difficulty):

@@ -2,8 +2,8 @@ from PyQt6.QtWidgets import QGraphicsScene, QGraphicsEllipseItem, QGraphicsRectI
     QVBoxLayout, QWidget
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPen, QColor, QFont
-from src.helpers.grid_helpers import grid_to_scene, scene_to_grid
-from src.helpers.wall_helpers import order_walls, get_blocked_roads, is_valid_wall
+from helpers.grid_helpers import grid_to_scene, scene_to_grid
+from helpers.wall_helpers import order_walls, get_blocked_roads, is_valid_wall
 
 class GridScene(QGraphicsScene):
     def __init__(self, game):

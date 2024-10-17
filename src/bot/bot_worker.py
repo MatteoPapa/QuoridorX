@@ -1,8 +1,8 @@
 from PyQt6.QtCore import QThread, pyqtSignal
-from src.bot.bot_helper import get_intelligent_moves, minimax
+from bot.bot_helper import get_intelligent_moves, minimax
 import time
 
-from src.helpers.valid_moves_helper import get_valid_moves_helper
+from helpers.valid_moves_helper import get_valid_moves_helper
 
 last_two_moves = []
 
