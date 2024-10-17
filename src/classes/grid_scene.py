@@ -49,38 +49,6 @@ class GridScene(QGraphicsScene):
         proxy_widget.setZValue(10)  # Ensure the rules are on top of everything
         self.rules_container.hide()
 
-    def keyPressEvent(self, event):
-        if self.keyPressed:
-            return
-        # Get the current player
-        current_player = self.game.turn_manager.get_current_player()
-        self.keyPressed=True
-
-        # Skip key events if the current player is a bot
-        if hasattr(current_player, 'is_bot') and current_player.is_bot:
-            print("Bot's turn, skipping key event")
-            return
-
-        # Get valid moves for the current player
-        valid_moves = current_player.valid_moves  # {'up': (3, 1), 'down': (5, 1), 'left': (4, 0), 'right': (4, 2)}
-
-        # Define key-to-direction mapping
-        key_direction_map = {
-            Qt.Key.Key_Up: 'up',
-            Qt.Key.Key_Down: 'down',
-            Qt.Key.Key_Left: 'left',
-            Qt.Key.Key_Right: 'right'
-        }
-
-        # Check if the key pressed corresponds to a direction
-        direction = key_direction_map.get(event.key(), None)
-        if direction and direction in valid_moves:
-            # Get the new row and column from valid_moves
-            new_row, new_col = valid_moves[direction]
-
-            # Call the move_player method to move the player
-            current_player.move_player(new_row, new_col)
-
     def draw_grid(self):
         """Draw the grid."""
         # Set the scene size based on grid size and cell size
@@ -139,6 +107,39 @@ class GridScene(QGraphicsScene):
     def enable_mouse_events(self):
         """Enable mouse event handling."""
         self.mouse_events_enabled = True
+
+    def keyPressEvent(self, event):
+        if not self.mouse_events_enabled:
+            return
+        # Get the current player
+        current_player = self.game.turn_manager.get_current_player()
+        # Skip key events if the current player is a bot
+        if hasattr(current_player, 'is_bot') and current_player.is_bot:
+            print("Bot's turn, skipping key event")
+            return
+        if self.keyPressed:
+            return
+
+        # Get valid moves for the current player
+        valid_moves = current_player.valid_moves  # {'up': (3, 1), 'down': (5, 1), 'left': (4, 0), 'right': (4, 2)}
+
+        # Define key-to-direction mapping
+        key_direction_map = {
+            Qt.Key.Key_Up: 'up',
+            Qt.Key.Key_Down: 'down',
+            Qt.Key.Key_Left: 'left',
+            Qt.Key.Key_Right: 'right'
+        }
+
+        # Check if the key pressed corresponds to a direction
+        direction = key_direction_map.get(event.key(), None)
+        if direction and direction in valid_moves:
+            # Get the new row and column from valid_moves
+            new_row, new_col = valid_moves[direction]
+            self.keyPressed = True
+            self.removeItem(self.wall_preview)
+            # Call the move_player method to move the player
+            current_player.move_player(new_row, new_col)
 
     def mousePressEvent(self, event):
         """Handle right-click mouse events for starting a wall preview."""
