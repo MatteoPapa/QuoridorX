@@ -12,7 +12,7 @@ def minimax(game_state, depth, alpha, beta, maximizing_player_color, current_pla
 
     # Terminal condition: if max depth is reached or the game is over
     if depth == 0 or game_over(game_state):
-        return evaluate(game_state, maximizing_player_color), move_sequence
+        return evaluate(game_state, maximizing_player_color,depth), move_sequence
 
     current_player = game_state.get_player_by_color(current_player_color)
     opponent_player = game_state.get_player_by_color(opponent_color)
@@ -88,7 +88,7 @@ def game_over(game_state):
 
 # === Heuristic Function ===
 
-def evaluate(game_state, maximizing_player_color):
+def evaluate(game_state, maximizing_player_color,depth=0):
     maximizing_player = game_state.get_player_by_color(maximizing_player_color)
     minimizing_player = game_state.get_player_by_color(game_state.get_opponent_color(maximizing_player_color))
 
@@ -120,9 +120,11 @@ def evaluate(game_state, maximizing_player_color):
 
     if minimizing_player.col == minimizing_player.goal_col:
         # The opponent has won, but the bot should still strive to minimize its distance to the goal
+        # Or surviving as long as possible
         # Return a negative value proportional to the bot's distance, with an added penalty
         penalty = 1000  # A large penalty to prioritize winning states over losing
-        return min_distance - max_distance + advantage_on_wall + proximity_weight - penalty
+        depth_penalty = 50 * depth
+        return min_distance - max_distance + advantage_on_wall + proximity_weight - penalty - depth_penalty
 
 
     evaluation = min_distance - max_distance + advantage_on_wall + proximity_weight

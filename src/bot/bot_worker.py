@@ -4,7 +4,8 @@ import time
 
 from helpers.valid_moves_helper import get_valid_moves_helper
 
-last_position = None
+last_position = {}
+last_eval = float('-inf')
 
 class BotWorker(QThread):
     move_computed = pyqtSignal(str, tuple)
@@ -22,6 +23,7 @@ class BotWorker(QThread):
 
     def run(self):
         global last_position
+        global last_eval
         start_time = time.time()
 
         best_move = None
@@ -63,17 +65,11 @@ class BotWorker(QThread):
             )
 
             # Penalize the bot for moving back and forth
-            if type in ['left', 'right', 'up', 'down']:
-                if move==last_position:
-                    move_value -= 3
-
-            # If the bot has no walls left, go for the shortest path
-            if self.available_walls == 0:
-                if move_value > -1000:
-                    best_move = move
-                    best_type = type
-                    best_value = move_value
-                    break
+            if move in ['left', 'right', 'up', 'down']:
+                # Check if there is a valid last position and if the current move is the same as the last move
+                if last_position.get(self.difficulty) is not None and move == last_position[self.difficulty]:
+                    print("Penalizing for moving back and forth")
+                    move_value -= 6
 
             if move_value > best_value:
                 best_value = move_value
@@ -100,7 +96,7 @@ class BotWorker(QThread):
         end_time = time.time()
         elapsed_time = end_time - start_time
         print(f"Bot thought for {elapsed_time:.2f} seconds.")
-        last_position = self.player.row, self.player.col
+        last_position = {self.difficulty:(self.player.row, self.player.col)}
 
         # Force move if no best move was found
         if not best_move:
@@ -116,12 +112,14 @@ class BotWorker(QThread):
         intelligent_moves, other_moves = get_intelligent_moves(self.game_state, self.player, self.player.grid_size,
                                                                self.blocked_roads, self.available_walls)
         if self.difficulty == 'easy':
+            return intelligent_moves[:5]
+        elif self.difficulty == 'medium':
             return intelligent_moves
         else:
             return intelligent_moves + other_moves
 
     def stop(self):
         """Stop the thread gracefully by setting the running flag to False."""
-        global last_two_moves
-        last_two_moves = []
+        global last_position
+        last_position = None
         self._is_running = False

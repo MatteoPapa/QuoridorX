@@ -13,12 +13,12 @@ from classes.turn_manager import TurnManager
 
 #Enable AI vs AI
 AIvsAI=False
-TESTING_DIFFICULTY='hard'
+TESTING_DIFFICULTY='medium'
 
 class GameWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Quoridor")
+        self.setWindowTitle("QuoridorX")
         icon_path=resource_path('resources/images/icons/quoridor.ico')
         self.setWindowIcon(QIcon(icon_path))
 
