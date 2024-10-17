@@ -42,6 +42,8 @@ class TurnManager:
         """Start the turn of the player."""
         #UPDATE GAME STATE
         self.game_state=GameState(self.game)
+        if not (hasattr(self.get_current_player(),'bot') and self.get_current_player().bot):
+            self.scene.keyPressed=False
 
         if self.current_turn == 'blue':
             self.red_player.on_end_turn()

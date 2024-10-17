@@ -24,6 +24,7 @@ class GridScene(QGraphicsScene):
         self.draw_grid()
 
         self.mouse_events_enabled = True
+        self.keyPressed=False
 
         # Initialize players
         self.red_player = None
@@ -49,11 +50,15 @@ class GridScene(QGraphicsScene):
         self.rules_container.hide()
 
     def keyPressEvent(self, event):
+        if self.keyPressed:
+            return
         # Get the current player
         current_player = self.game.turn_manager.get_current_player()
+        self.keyPressed=True
 
         # Skip key events if the current player is a bot
         if hasattr(current_player, 'is_bot') and current_player.is_bot:
+            print("Bot's turn, skipping key event")
             return
 
         # Get valid moves for the current player

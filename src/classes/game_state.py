@@ -17,7 +17,6 @@ class GameState:
 
         self.update_wall_states()
 
-        # Ensure you pass the position (row, col) to bfs_shortest_path, not the player object itself
         if self.red_player:
             start_position = (self.red_player.row, self.red_player.col)
             self.red_player_shortest_path = bfs_pathfinder(start_position, self.red_player.goal_col,
@@ -47,9 +46,6 @@ class GameState:
             red_player_pos, blue_player_pos, self.red_player.goal_col, self.blue_player.goal_col
         )
 
-        # self.forbidden_walls = find_forbidden_walls_union_find(self.grid_size, self.placed_walls, self.current_blocked_roads,
-        #                                                        red_player_pos, blue_player_pos, self.red_player.goal_col, self.blue_player.goal_col,union_find=self.union_find)
-
         # Update valid walls based on the current state
         self.valid_walls = find_valid_walls(self.grid_size, self.placed_walls, self.forbidden_walls)
 
@@ -58,14 +54,6 @@ class GameState:
     def simulate_move_or_wall(self, action_type, action_value, player):
         """
         Simulate either a move or a wall placement and return a new game state.
-
-        Args:
-            action_type: 'move' for player movement, 'wall' for wall placement.
-            action_value: The move coordinates or wall coordinates.
-            player: The player making the action (red or blue).
-
-        Returns:
-            A new simulated game state reflecting the action.
         """
         # Create a new GameState instance
         game_state_copy = GameState.__new__(GameState)
@@ -102,7 +90,6 @@ class GameState:
             game_state_copy.update_wall_states()
         elif action_type == 'skip':
             # Skip the player's turn
-            print("Skipping turn")
             pass
         else:
             # Unpack move coordinates
@@ -138,7 +125,6 @@ class GameState:
 
     def get_opponent_color(self, color):
         return 'blue' if color == 'red' else 'red'
-
 
 class SimplePlayer:
     def __init__(self, row, col,goal_col,available_walls):
