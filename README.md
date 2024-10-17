@@ -59,7 +59,8 @@ To play the development version, follow the instructions below:
    ```
 3. Run the game:
    ```bash
-   python main.py
+   cd src
+   python app.py
    ```
 
 ## 📦 Standalone Executable Release
