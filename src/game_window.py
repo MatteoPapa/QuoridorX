@@ -1,3 +1,5 @@
+import sys
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QGraphicsView, QMainWindow, QWidget, QHBoxLayout
@@ -13,7 +15,7 @@ from classes.turn_manager import TurnManager
 
 #Enable AI vs AI
 AIvsAI=False
-TESTING_DIFFICULTY='medium'
+TESTING_DIFFICULTY='easy'
 
 class GameWindow(QMainWindow):
     def __init__(self):

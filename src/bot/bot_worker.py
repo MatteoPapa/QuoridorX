@@ -65,11 +65,10 @@ class BotWorker(QThread):
             )
 
             # Penalize the bot for moving back and forth
-            if move in ['left', 'right', 'up', 'down']:
+            if type in ['left', 'right', 'up', 'down']:
                 # Check if there is a valid last position and if the current move is the same as the last move
                 if last_position.get(self.difficulty) is not None and move == last_position[self.difficulty]:
-                    print("Penalizing for moving back and forth")
-                    move_value -= 6
+                    move_value -= 5
 
             if move_value > best_value:
                 best_value = move_value

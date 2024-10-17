@@ -8,7 +8,6 @@ class Bot(Player):
         self.difficulty = difficulty
         self.grid_size = game.grid_size
         self.scene=game.scene
-        self.search_depth = 9
         self.difficulty_setup()
 
     def on_turn(self):

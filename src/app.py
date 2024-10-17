@@ -4,6 +4,11 @@ from PyQt6.QtWidgets import QApplication
 from qt_material import apply_stylesheet
 from game_window import GameWindow
 
+DEBUG = False
+
+if not DEBUG:
+    sys.stdout = open(os.devnull, 'w')
+
 def main():
 
     sys.path.append(os.path.dirname(os.path.realpath(__file__)))
